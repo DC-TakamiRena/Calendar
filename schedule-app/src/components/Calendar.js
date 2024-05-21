@@ -20,22 +20,22 @@ function Calendar() {
       </tr>
     );
 
-    // 月の日数分のセルを追加
+    // 日付セルを追加
     let rowIndex = 0;
     while (currentDay <= daysInMonth) {
       const cells = [];
       for (let day = 0; day < 7; day++) {
         if (rowIndex === 0 && day < firstDayOfMonth) {
-          cells.push(<td key={day}></td>); // 最初の週の月の最初の曜日まで空のセルを追加
+          cells.push(<td key={`${rowIndex}-${day}`}></td>); // 最初の週の月の最初の曜日まで空のセルを追加
         } else if (currentDay <= daysInMonth) {
           cells.push(
-            <td key={currentDay}>
+            <td key={`${rowIndex}-${day}`}>
               <Link to={`/schedules/${currentDay}`}>{currentDay}</Link>
             </td>
           );
           currentDay++;
         } else {
-          cells.push(<td key={currentDay}></td>); // 日数を超えた場合は空のセルを追加
+          cells.push(<td key={`${rowIndex}-${day}`}></td>); // 日数を超えた場合は空のセルを追加
         }
       }
       rows.push(<tr key={rowIndex}>{cells}</tr>);
