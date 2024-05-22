@@ -1,20 +1,39 @@
-// ScheduleDetail.js
-
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
-function ScheduleDetail({ match }) {
-  // パラメータから日付を取得
-  const date = match.params.date;
+const ScheduleDetails = ({ schedules }) => {
+  const { date } = useParams();
 
-  // ここで予定の詳細を取得し、表示する
+  // URLのdateパラメータをDateオブジェクトに変換
+  const selectedDate = new Date(date);
+
+  // スケジュールの日付を比較して一致するものをフィルタリング
+  const scheduleDetails = schedules.filter(schedule => {
+    const scheduleDate = new Date(schedule.date);
+    return (
+      scheduleDate.getFullYear() === selectedDate.getFullYear() &&
+      scheduleDate.getMonth() === selectedDate.getMonth() &&
+      scheduleDate.getDate() === selectedDate.getDate()
+    );
+  });
 
   return (
     <div>
-      <h2>Schedule Detail</h2>
-      <p>Date: {date}</p>
-      {/* 他の予定の詳細情報を表示 */}
+      <h2>掃除の詳細 {date}</h2>
+      {scheduleDetails.length > 0 ? (
+        <ul>
+          {scheduleDetails.map(schedule => (
+            <div key={schedule.id}>
+              <h3>{schedule.title}</h3>
+              {/* <p>Date: {schedule.date}</p> */}
+            </div>
+          ))}
+        </ul>
+      ) : (
+        <p>No schedules for this date.</p>
+      )}
     </div>
   );
-}
+};
 
-export default ScheduleDetail;
+export default ScheduleDetails;
