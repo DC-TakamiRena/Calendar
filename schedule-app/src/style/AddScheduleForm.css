@@ -1,0 +1,12 @@
+.flex {
+    display: flex;
+    flex-direction: column;
+    width: 3em;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5em auto;
+}
+
+.flex input, .flex button {
+    margin: 0.5em 0;
+}

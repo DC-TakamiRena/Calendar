@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Calendar from './components/Calendar';
 import ScheduleList from './components/ScheduleList';
 import RecordList from './components/RecordList';
 import AddScheduleForm from './components/AddScheduleForm';
 import AddRecordForm from './components/AddRecordForm';
 import ApiService from './services/ApiService';
+import './App.css';
 
 function App() {
   const [schedules, setSchedules] = useState([]);
@@ -54,19 +55,19 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <h1>Cleaning Management App</h1>
+      <div className="App biz-udgothic-regular">
+        <h1>お掃除管理アプリ</h1>
         <div className="container">
           <div className="row">
             <div className="col-md-6">
               <Calendar schedules={schedules} />
               <AddScheduleForm addSchedule={addSchedule} />
             </div>
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
               <ScheduleList schedules={schedules} />
               <RecordList records={records} />
               <AddRecordForm addRecord={addRecord} />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

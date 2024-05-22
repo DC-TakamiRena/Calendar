@@ -3,32 +3,37 @@ import { Link } from 'react-router-dom';
 import '../style/Calendar.css';
 
 function Calendar({ schedules }) {
-
-  // 現在の年月を保持する state
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
 
   // 前月の日付を取得する関数
   const prevMonth = () => {
-    const prevDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-    setCurrentDate(prevDate);
+    setCurrentDate(prevDate => {
+      const prevMonthDate = new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1);
+      setCurrentYear(prevMonthDate.getFullYear());
+      setCurrentMonth(prevMonthDate.getMonth());
+      return prevMonthDate;
+    });
   };
 
   // 次月の日付を取得する関数
   const nextMonth = () => {
-    const nextDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-    setCurrentDate(nextDate);
+    setCurrentDate(prevDate => {
+      const nextMonthDate = new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1);
+      setCurrentYear(nextMonthDate.getFullYear());
+      setCurrentMonth(nextMonthDate.getMonth());
+      return nextMonthDate;
+    });
   };
 
   const renderCalendarCells = () => {
     const rows = [];
-    const year = currentDate.getFullYear(); // 現在の年
-    const month = currentDate.getMonth(); // 現在の月
-    const daysInMonth = new Date(year, month + 1, 0).getDate(); // 現在の月の日数
-    const firstDayOfMonth = new Date(year, month, 1).getDay(); // 現在の月の最初の曜日
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // 現在の月の日数
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 現在の月の最初の曜日
     const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     let currentDay = 1;
-    // ヘッダー行を追加
     rows.push(
       <tr key="header">
         {weekdays.map((day) => (
@@ -37,7 +42,6 @@ function Calendar({ schedules }) {
       </tr>
     );
 
-    // 月の日数分のセルを追加
     let rowIndex = 0;
     while (currentDay <= daysInMonth) {
       const cells = [];
@@ -46,12 +50,16 @@ function Calendar({ schedules }) {
           cells.push(<td key={`${rowIndex}-${day}`}></td>); // 最初の週の月の最初の曜日まで空のセルを追加
         } else if (currentDay <= daysInMonth) {
           const isScheduled = schedules.some((schedule) => {
-            const scheduleDate = new Date(schedule.date).getDate();
-            return scheduleDate === currentDay;
+            const scheduleDate = new Date(schedule.date);
+            return (
+              scheduleDate.getDate() === currentDay &&
+              scheduleDate.getMonth() === currentMonth &&
+              scheduleDate.getFullYear() === currentYear
+            );
           });
           cells.push(
             <td key={`${rowIndex}-${day}`} className="calendar-cell">
-              <Link to={`/schedules/${year}/${month + 1}/${currentDay}`}>{currentDay}</Link>
+              <Link to={`/schedules/${currentYear}-${currentMonth + 1}-${currentDay}`}>{currentDay}</Link>
               {isScheduled && <div className="dot">&#8226;</div>}
             </td>
           );
@@ -69,9 +77,9 @@ function Calendar({ schedules }) {
 
   return (
     <div className="calendar">
-      <div className='calendar-header'>
+      <div className="calendar-header">
         <button onClick={prevMonth}>前月</button>
-        <h2>{`${currentDate.getFullYear()}年${currentDate.getMonth() + 1}月`}</h2>
+        <h2>{`${currentYear}年${currentMonth + 1}月`}</h2>
         <button onClick={nextMonth}>次月</button>
       </div>
       <table>

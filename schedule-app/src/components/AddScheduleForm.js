@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../style/AddScheduleForm.css'
 
 function AddScheduleForm({ addSchedule }) {
   const [title, setTitle] = useState('');
@@ -25,11 +26,11 @@ function AddScheduleForm({ addSchedule }) {
 
   return (
     <div>
-      <h2>Add Schedule</h2>
-      <form onSubmit={handleSubmit}>
+      <h2>予定を追加</h2>
+      <form onSubmit={handleSubmit} className='flex'>
         <input type='text' title='scheduleTitle' onChange={changeTitle}/>
         <input type='date' title='date' onChange={changeDate} />
-        <button type="submit">Add Schedule</button>
+        <button type="submit">追加</button>
       </form>
     </div>
   );
