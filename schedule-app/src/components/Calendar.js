@@ -31,7 +31,7 @@ function Calendar({ schedules }) {
     const rows = [];
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // 現在の月の日数
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay(); // 現在の月の最初の曜日
-    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
 
     let currentDay = 1;
     rows.push(

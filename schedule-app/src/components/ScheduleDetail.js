@@ -25,12 +25,11 @@ const ScheduleDetails = ({ schedules }) => {
           {scheduleDetails.map(schedule => (
             <div key={schedule.id}>
               <h3>{schedule.title}</h3>
-              {/* <p>Date: {schedule.date}</p> */}
             </div>
           ))}
         </ul>
       ) : (
-        <p>No schedules for this date.</p>
+        <p>記録はありません</p>
       )}
     </div>
   );
